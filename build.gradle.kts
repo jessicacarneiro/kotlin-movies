@@ -62,6 +62,13 @@ sourceSets {
     }
 }
 
+task<Test>("integration") {
+    description = "Runs the integration tests"
+    testClassesDirs = sourceSets["integration"].output.classesDirs
+    classpath = sourceSets["integration"].runtimeClasspath
+    mustRunAfter("test")
+}
+
 task<Test>("e2e") {
     description = "Runs the E2E tests"
     testClassesDirs = sourceSets["e2e"].output.classesDirs

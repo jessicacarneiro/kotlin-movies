@@ -7,16 +7,16 @@ import io.github.jessicacarneiro.moviesapp.domain.Movie
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should be instance of`
 import org.amshove.kluent.`should be`
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import org.litote.kmongo.deleteMany
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class KMongoRepositoryTest {
 
-    val repository = KMongoRepository()
+    @Autowired
+    lateinit var repository : KMongoRepository
 
     @BeforeEach
     fun setUp() {
@@ -36,7 +36,7 @@ class KMongoRepositoryTest {
     @Test
     fun `should retrieve database movies-app`() {
         repository.database `should be instance of` MongoDatabase::class
-        repository.database.name `should be` "movies_app"
+        repository.database.name `should be equal to` "movies_app_test"
     }
 
     @Test

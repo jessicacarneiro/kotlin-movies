@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import io.github.jessicacarneiro.moviesapp.domain.Movie
+import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.`should be instance of`
 import org.amshove.kluent.`should be`
 import org.junit.jupiter.api.AfterEach
@@ -24,7 +25,7 @@ class KMongoRepositoryTest {
 
     @AfterEach
     fun tearDown() {
-        repository.getMovies().deleteMany("{ title: 'Blade Runner' }")
+        repository.getMovies().deleteMany("{ title: {\$regex : \"Blade Runner.*\"} }")
     }
 
     @Test
@@ -57,5 +58,16 @@ class KMongoRepositoryTest {
 
         repository.findMovies(query).count() `should be` 1
     }
-}
 
+    @Test
+    fun `should insert movie with specified values`() {
+        val newMovie = Movie("Blade Runner 2049", 2017, 8.0)
+        repository.insertMovie(newMovie)
+
+        val movie: Movie? = repository.findMovies("{ title: 'Blade Runner 2049' }").first()
+
+        movie?.title `should be equal to` ("Blade Runner 2049")
+        movie?.year `should be equal to` 2017
+        movie?.score `should be equal to` 8.0
+    }
+}

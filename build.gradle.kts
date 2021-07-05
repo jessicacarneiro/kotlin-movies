@@ -35,6 +35,7 @@ dependencies {
     testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.amshove.kluent:kluent:1.67")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
 }
 
 tasks.withType<KotlinCompile> {

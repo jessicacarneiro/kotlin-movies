@@ -21,19 +21,19 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.litote.kmongo:kmongo:4.2.8")
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
 
-    testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
-    testImplementation("org.amshove.kluent:kluent:1.67")
-    testImplementation("io.projectreactor:reactor-test")
+    implementation("org.litote.kmongo:kmongo:4.2.8")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.amshove.kluent:kluent:1.67")
 }
 
 tasks.withType<KotlinCompile> {

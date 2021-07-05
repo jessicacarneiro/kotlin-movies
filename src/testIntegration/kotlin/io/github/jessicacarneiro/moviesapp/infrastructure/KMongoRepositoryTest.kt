@@ -43,5 +43,19 @@ class KMongoRepositoryTest {
         repository.getMovies() `should be instance of` MongoCollection::class
         repository.getMovies().countDocuments() `should be` 1
     }
+
+    @Test
+    fun `should return empty collection if no movies matching a query`() {
+        val query = "{ title: 'Blade Runner 2049' }"
+
+        repository.findMovies(query).count() `should be` 0
+    }
+
+    @Test
+    fun `should return collection if movies match a query`() {
+        val query = "{ title: 'Blade Runner' }"
+
+        repository.findMovies(query).count() `should be` 1
+    }
 }
 

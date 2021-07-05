@@ -1,0 +1,10 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: gradle:7-jdk11
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: ./gradlew clean build -x test

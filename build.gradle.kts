@@ -77,12 +77,6 @@ task<Test>("e2e") {
     mustRunAfter("integration")
 }
 
-tasks.register("allTests") {
-    dependsOn(tasks["test"])
-    dependsOn(tasks["integration"])
-    dependsOn(tasks["e2e"])
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -93,6 +87,15 @@ tasks.jacocoTestReport {
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 }
+
+tasks.register("allTests") {
+    dependsOn(tasks["test"])
+    dependsOn(tasks["integration"])
+    dependsOn(tasks["e2e"])
+
+    finalizedBy(tasks["jacocoTestReport"])
+}
+
 
 tasks.withType<Test> {
     useJUnitPlatform()

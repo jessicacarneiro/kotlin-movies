@@ -5,11 +5,16 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
+
+    idea
+    jacoco
 }
 
 group = "io.github.jessicacarneiro"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+jacoco { toolVersion = "0.8.7" }
 
 repositories {
     mavenCentral()
@@ -72,6 +77,13 @@ tasks.register("allTests") {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
 }
 
 tasks.withType<Test> {

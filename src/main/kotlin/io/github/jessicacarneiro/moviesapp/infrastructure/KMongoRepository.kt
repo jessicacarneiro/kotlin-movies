@@ -4,7 +4,6 @@ import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.result.InsertOneResult
-import io.github.jessicacarneiro.moviesapp.configuration.DatabaseProperties
 import io.github.jessicacarneiro.moviesapp.configuration.MongoDBProperties
 import io.github.jessicacarneiro.moviesapp.domain.Movie
 import org.litote.kmongo.KMongo

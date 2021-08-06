@@ -3,8 +3,20 @@ jobs:
   build:
     docker:
       - image: gradle:7-jdk11
+      - image: circleci/mongo:5.0.2-focal
+        command: [mongod, --smallfiles]
+    working_directory: ~/
     steps:
       - checkout
       - run:
           name: Build
           command: ./gradlew clean build -x test
+      - run:
+          name: Unit test
+          command: ./gradlew test
+      - run:
+          name: Integration test
+          command: ./gradlew integration
+      - run:
+          name: E2E test
+          command: ./gradlew e2e

@@ -5,6 +5,8 @@ import io.github.jessicacarneiro.moviesapp.domain.Movie
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.emptyString
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
@@ -27,6 +29,7 @@ class MoviesControllerTest {
             get("/movies")
         } Then {
             statusCode(204)
+            body(emptyString())
         }
     }
 
@@ -34,13 +37,17 @@ class MoviesControllerTest {
     fun `should return ok and array if there are movies available`() {
         whenever(serviceMock.getAllMovies()).thenReturn(listOf(Movie("3 Idiots", 2009, 8.4)))
 
-        Given {
+      Given {
             port(8080)
         }
         When {
             get("/movies")
         } Then {
             statusCode(200)
+            body("size", `is`(1))
+            body("[0].title", `is`("3 Idiots"))
+            body("[0].year", `is`(2009))
+            body("[0].score", `is`((8.4).toFloat()))
         }
     }
 }

@@ -5,7 +5,6 @@ jobs:
       - image: gradle:7-jdk11
       - image: circleci/mongo:5.0.2-focal
         command: [mongod]
-    working_directory: ~/
     steps:
       - checkout
       - run:

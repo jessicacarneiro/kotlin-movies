@@ -19,3 +19,5 @@ jobs:
       - run:
           name: E2E test
           command: ./gradlew e2e
+      - store_test_results:
+          path: build/test-results

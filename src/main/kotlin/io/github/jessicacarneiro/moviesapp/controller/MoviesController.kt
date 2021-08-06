@@ -1,18 +1,23 @@
 package io.github.jessicacarneiro.moviesapp.controller
 
+import io.github.jessicacarneiro.moviesapp.application.MoviesService
 import io.github.jessicacarneiro.moviesapp.domain.Movie
-import io.github.jessicacarneiro.moviesapp.infrastructure.KMongoRepository
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("movies")
-class MoviesController {
+class MoviesController(val service : MoviesService) {
 
     @GetMapping
-    fun getAllMovies() : Array<Movie> {
-        return emptyArray<Movie>()
+    @ResponseBody
+    fun getAllMovies() : ResponseEntity<List<Movie>> {
+        val movies = service.getAllMovies()
+
+        if (movies.isEmpty()) {
+            return ResponseEntity(emptyList(), HttpStatus.NO_CONTENT)
+        }
+        return ResponseEntity(movies, HttpStatus.OK);
     }
 }

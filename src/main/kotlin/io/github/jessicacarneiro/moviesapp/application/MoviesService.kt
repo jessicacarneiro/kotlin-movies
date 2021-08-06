@@ -9,4 +9,8 @@ class MoviesService(val repository: KMongoRepository) {
     fun getAllMovies() : List<Movie> {
          return repository.getMovies().toList();
     }
+
+    fun addMovie(movie: Movie) {
+        repository.insertMovie(movie)
+    }
 }

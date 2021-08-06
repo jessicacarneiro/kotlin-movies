@@ -40,4 +40,13 @@ class MoviesServiceTest {
         service.getAllMovies().count() `should be` 2
         verify(repositoryMock).getMovies()
     }
+
+    @Test
+    fun `should insert new movie`() {
+        var newMovie = Movie("Eternal Sunshine of the Spotless Mind", 2004, 8.3)
+
+        service.addMovie(newMovie)
+
+        verify(repositoryMock).insertMovie(newMovie)
+    }
 }

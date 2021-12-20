@@ -1,6 +1,8 @@
 package io.github.jessicacarneiro.moviesapp.controller
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.github.jessicacarneiro.moviesapp.application.MoviesService
+import io.github.jessicacarneiro.moviesapp.controller.input.MovieRequest
 import io.github.jessicacarneiro.moviesapp.domain.Movie
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
@@ -11,12 +13,17 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
 class MoviesControllerTest {
 
     @MockBean
     private lateinit var serviceMock: MoviesService
+
+    private val mapper = jacksonObjectMapper()
 
     @Test
     fun `should return status no content and empty array if no movies are available`() {
@@ -48,6 +55,22 @@ class MoviesControllerTest {
             body("[0].title", `is`("3 Idiots"))
             body("[0].year", `is`(2009))
             body("[0].score", `is`((8.4).toFloat()))
+        }
+    }
+
+    @Test
+    fun `should return ok when a movie is inserted`() {
+        val newMovie = MovieRequest("Die Hard", 1988, 6.7)
+
+        Given {
+            port(8080)
+            contentType(MediaType.APPLICATION_JSON_VALUE)
+            body(mapper.writeValueAsString(newMovie))
+        }
+        When {
+            post("/movies")
+        } Then {
+            statusCode(200)
         }
     }
 }

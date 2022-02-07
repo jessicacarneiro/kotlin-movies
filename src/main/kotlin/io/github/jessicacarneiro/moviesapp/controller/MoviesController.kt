@@ -31,13 +31,20 @@ class MoviesController(val service : MoviesService) {
         }
 
         logger.debug("Found movies $movies")
-        return ResponseEntity(movies, HttpStatus.OK);
+        return ResponseEntity(movies, HttpStatus.OK)
     }
 
     @PostMapping
     fun createMovie(@RequestBody request : MovieRequest): ResponseEntity<Void> {
-        service.addMovie(request.toMovie());
-        logger.debug("New movie $request inserted")
-        return ResponseEntity.ok().build();
+        return try {
+            service.addMovie(request.toMovie())
+            logger.debug("New movie $request inserted")
+
+            ResponseEntity(HttpStatus.CREATED)
+        } catch (ex: RuntimeException) {
+            logger.error("Unable to create movie", ex)
+
+            ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 }

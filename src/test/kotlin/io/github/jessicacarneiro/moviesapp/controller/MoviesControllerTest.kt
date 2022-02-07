@@ -68,6 +68,6 @@ class MoviesControllerTest {
             .body(body)
             .post("/movies")
             .then()
-            .statusCode(200)
+            .statusCode(201)
     }
 }

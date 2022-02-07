@@ -1,3 +1,10 @@
 mongodb:
   database:
     name: movies_app
+
+logging:
+  level:
+    io:
+      github:
+        jessicacarneiro:
+          moviesapp: debug

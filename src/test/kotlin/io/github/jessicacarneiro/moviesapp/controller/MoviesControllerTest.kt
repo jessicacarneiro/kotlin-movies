@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.github.jessicacarneiro.moviesapp.application.MoviesService
 import io.github.jessicacarneiro.moviesapp.controller.input.MovieRequest
 import io.github.jessicacarneiro.moviesapp.domain.Movie
+import io.restassured.RestAssured.given
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.whenever
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -59,18 +59,15 @@ class MoviesControllerTest {
     }
 
     @Test
-    fun `should return ok when a movie is inserted`() {
+    fun `should return created when a movie is inserted`() {
         val newMovie = MovieRequest("Die Hard", 1988, 6.7)
+        val body = mapper.writeValueAsString(newMovie)
 
-        Given {
-            port(8080)
-            contentType(MediaType.APPLICATION_JSON_VALUE)
-            body(mapper.writeValueAsString(newMovie))
-        }
-        When {
-            post("/movies")
-        } Then {
-            statusCode(200)
-        }
+        given()
+            .contentType("application/json")
+            .body(body)
+            .post("/movies")
+            .then()
+            .statusCode(200)
     }
 }

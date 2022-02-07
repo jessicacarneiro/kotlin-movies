@@ -21,3 +21,9 @@ jobs:
           command: ./gradlew e2e
       - store_test_results:
           path: build/test-results
+      - coverage-reporter/send_report:
+          coverage-reports: 'target/site/jacoco/jacoco.xml'
+          skip: false
+
+orbs:
+  coverage-reporter: codacy/coverage-reporter@13.5.2
